@@ -1,0 +1,12 @@
+{
+    "name": "com.fixer33.modular-console",
+    "rootNamespace": "ModularConsole",
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "noEngineReferences": false
+}

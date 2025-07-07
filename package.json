@@ -1,0 +1,12 @@
+{
+  "name": "com.fixer33.modular-console",
+  "version": "1.0.0",
+  "displayName": "Modular console",
+  "description": "Modular console that allows easy commands and custom modules integration",
+  "unity": "6000.1",
+  "author": {
+    "name": "Fixer33",
+    "email": "fsfixer33@gmail.com",
+    "url": "https://github.com/Fixer33"
+  }
+}

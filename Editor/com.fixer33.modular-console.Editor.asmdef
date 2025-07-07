@@ -1,0 +1,18 @@
+{
+    "name": "com.fixer33.modular-console.Editor",
+    "rootNamespace": "ModularConsole.Editor",
+    "references": [
+        "com.fixer33.modular-console"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
