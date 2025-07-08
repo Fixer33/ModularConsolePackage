@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -42,6 +41,15 @@ namespace ModularConsole
         {
             if (ConsoleSystem.UI == this)
                 ConsoleSystem.UI = null;
+        }
+
+        private void Update()
+        {
+            foreach (var consoleModule in ConsoleSystem.Modules)
+            {
+                if (consoleModule.NeedsUpdate)
+                    consoleModule.Update();
+            }
         }
 
         public void Show()
