@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ModularConsole.Modules.Console;
+using ModularConsole.Contracts;
 
 namespace ModularConsole
 {
@@ -12,8 +12,6 @@ namespace ModularConsole
         public static void Reset()
         {
             Modules.Clear();
-            
-            Modules.Add(new ConsoleModule());
         }
     }
 }

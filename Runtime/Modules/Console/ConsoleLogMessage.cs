@@ -31,6 +31,7 @@ namespace ModularConsole.Modules.Console
                 text = ""
             };
             Add(_amountText);
+            _amountText.style.display = DisplayStyle.None;
 
             if (logRecord is ErrorLog errorLog)
             {
@@ -55,6 +56,7 @@ namespace ModularConsole.Modules.Console
 
         public void IncreaseAmount()
         {
+            _amountText.style.display = DisplayStyle.Flex;
             _amount++;
             _amountText.text = _amount.ToString();
         }

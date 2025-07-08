@@ -1,13 +1,14 @@
+using ModularConsole.Contracts;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ModularConsole.Modules.Console
 {
-    public class ConsoleModule : IConsoleModule
+    public class ConsoleModule : PersistentModule
     {
         private static StyleSheet _styleSheet;
 
-        public string ModuleName => "Console";
+        public override string ModuleName => "Console";
         public bool NeedsUpdate { get; private set; }
 
         private readonly ScrollView _logScrollView;
@@ -51,7 +52,7 @@ namespace ModularConsole.Modules.Console
                 _lastLogMessage = new ConsoleLogMessage(logRecord);
                 _lastLogMessage.AddToClassList("logRecord");
                 _logScrollView.contentContainer.Add(_lastLogMessage);
-                // NeedsUpdate = true;
+                NeedsUpdate = true;
                 _updateCycles = 0;
                 
                 return;
@@ -62,24 +63,24 @@ namespace ModularConsole.Modules.Console
 
         public void Update()
         {
-            // var scrollOffset = _logScrollView.scrollOffset;
-            // scrollOffset.y = _logScrollView.verticalScroller.highValue;
-            // _logScrollView.scrollOffset = scrollOffset;
-            // _updateCycles++;
-            //
-            // if (_updateCycles > 5)
-            // {
-            //     _updateCycles = 0;
-            //     NeedsUpdate = false;
-            // }
-            //
-            // _root.Remove(_controlPanel);
-            // _root.Add(_controlPanel);
-            // _root.Remove(_logScrollView);
-            // _root.Add(_logScrollView);
+            var scrollOffset = _logScrollView.scrollOffset;
+            scrollOffset.y = _logScrollView.verticalScroller.highValue;
+            _logScrollView.scrollOffset = scrollOffset;
+            _updateCycles++;
+            
+            if (_updateCycles > 5)
+            {
+                _updateCycles = 0;
+                NeedsUpdate = false;
+            }
+            
+            _root.Remove(_controlPanel);
+            _root.Add(_controlPanel);
+            _root.Remove(_logScrollView);
+            _root.Add(_logScrollView);
         }
         
-        public void ConstructUI(VisualElement root)
+        public override void ConstructUI(VisualElement root)
         {
             _root = root;
             

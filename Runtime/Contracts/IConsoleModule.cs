@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace ModularConsole
+namespace ModularConsole.Contracts
 {
     public interface IConsoleModule
     {
