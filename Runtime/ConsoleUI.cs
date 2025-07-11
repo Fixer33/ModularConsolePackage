@@ -99,6 +99,14 @@ namespace ModularConsole
                 tab.contentContainer.Add(moduleRoot);
                 tabView.contentContainer.Add(tab);
             }
+
+            var closeRegion = _document.rootVisualElement.Q("close-region");
+            closeRegion.RegisterCallback<ClickEvent>(OnCloseRegionClick);
+        }
+
+        private void OnCloseRegionClick(ClickEvent evt)
+        {
+            Hide();
         }
     }
 }
