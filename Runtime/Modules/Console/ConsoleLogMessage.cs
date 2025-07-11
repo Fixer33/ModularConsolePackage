@@ -7,6 +7,10 @@ namespace ModularConsole.Modules.Console
         private const string EXPANDED_CLASS_NAME = "logRecordExpanded";
 
         public LogRecordBase LogRecord => _logRecord;
+        
+        public bool IsLog { get; }
+        public bool IsWarning { get; }
+        public bool IsError { get; }
 
         private readonly LogRecordBase _logRecord;
         private readonly Label _amountText;
@@ -16,6 +20,10 @@ namespace ModularConsole.Modules.Console
         internal ConsoleLogMessage(LogRecordBase logRecord)
         {
             _logRecord = logRecord;
+
+            IsLog = logRecord is SimpleLog;
+            IsWarning = logRecord is WarningLog;
+            IsError = logRecord is ErrorLog;
 
             Label text = new Label()
             {

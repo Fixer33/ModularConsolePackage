@@ -7,7 +7,6 @@ namespace ModularConsole.Modules.Console
     
     internal record SimpleLog(string Message) : LogRecordBase(Message) { }
     internal record WarningLog(string Message) : LogRecordBase(Message) {}
-    internal record AssertLog(string Message) : LogRecordBase(Message) {}
 
     internal record ErrorLog(string Message, string StackTrace) : LogRecordBase(Message)
     {

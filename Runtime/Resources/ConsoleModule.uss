@@ -5,6 +5,8 @@
     
     --main-color: rgba(204, 195, 40, 0.5);
     --secondary-color: rgba(60, 70, 78, 0.67);
+    
+    --transparent-color: rgba(0,0,0,0);
 }
 
 #control-panel {
@@ -15,6 +17,27 @@
     border-top-width: 1px;
     border-bottom-color: var(--main-color);
     border-bottom-width: 1px;
+    
+    flex-direction: row;
+}
+
+.logFilterToggle {
+    margin-left: 15px;
+}
+
+.logFilterToggle #unity-checkmark {
+    border-color: var(--transparent-color);
+    background-color: var(--transparent-color);
+    -unity-background-image-tint-color: var(--main-color);
+}
+
+.logFilterToggle:hover #unity-checkmark {
+    border-color: var(--main-color);
+    border-radius: 3px;
+}
+
+.logFilterToggle Label {
+    font-size: 18px;
 }
 
 #logs-container {
@@ -49,6 +72,10 @@
     margin: 2px 3px;
     padding-left: 5px;
     padding-right: 5px;
+}
+
+.logRecord:disabled {
+    display: none;
 }
 
 .logRecordExpanded {
