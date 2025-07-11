@@ -1,16 +1,42 @@
 :root {
     --control-panel-height: 60px;
+    --command-input-height: 40px;
     --log-record__count-text-size: 40px;
+    
+    --main-color: rgba(204, 195, 40, 0.5);
+    --secondary-color: rgba(60, 70, 78, 0.67);
 }
 
 #control-panel {
     height: var(--control-panel-height);
     flex-shrink: 0;
-    background-color: rgba(60, 70, 78, 0.67);
-    border-top-color: rgba(204, 195, 40, 0.5);
+    background-color: var(--secondary-color);
+    border-top-color: var(--main-color);
     border-top-width: 1px;
-    border-bottom-color: rgba(204, 195, 40, 0.5);
+    border-bottom-color: var(--main-color);
     border-bottom-width: 1px;
+}
+
+#logs-container {
+    flex-grow: 1;
+}
+
+#command-input-field {
+    margin-top: 5px;
+    height: var(--command-input-height);
+}
+
+#command-input-field #unity-text-input {
+    padding: 0;
+    background-color: var(--secondary-color);
+    border-color: var(--main-color);
+    border-width: 3px;
+    padding-left: 9px;
+}
+
+#command-input-field .unity-text-element {
+    font-size: 24px;
+    padding: 0;
 }
 
 .logRecord {

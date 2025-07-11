@@ -13,5 +13,16 @@ namespace ModularConsole
         {
             Modules.Clear();
         }
+
+        public static void AddModule(IConsoleModule runtimeModule)
+        {
+            Modules.Add(runtimeModule);
+        }
+
+        public static void RemoveModule(IConsoleModule runtimeModule)
+        {
+            if (Modules.Contains(runtimeModule) == false)
+                Modules.Remove(runtimeModule);
+        }
     }
 }

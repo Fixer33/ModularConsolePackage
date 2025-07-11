@@ -47,6 +47,18 @@
     align-items: center;
 }
 
+#unity-tab-view__content-container {
+    flex-grow: 1;
+}
+
+#unity-tab__content-container {
+    flex-grow: 1;
+}
+
+.unity-tab {
+    flex-grow: 1;
+}
+
 .unity-tab__header > .unity-tab__header-label {
     font-size: 18px;
     position: relative;
@@ -67,4 +79,5 @@
 }
 
 .module-ui-container {
+    flex-grow: 1;
 }
