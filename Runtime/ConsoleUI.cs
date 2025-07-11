@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 namespace ModularConsole
 {
@@ -13,6 +14,7 @@ namespace ModularConsole
         private StyleSheet _styles;
         private VisualTreeAsset _defaultRoot;
         private bool _initialized;
+        private CursorLockMode _lastCursorLockState;
         
         internal void Initialize(VisualTreeAsset defaultRoot, StyleSheet styleSheet, ThemeStyleSheet themeStyleSheet)
         {
@@ -54,11 +56,20 @@ namespace ModularConsole
 
         public void Show()
         {
+            if (IsVisible)
+                return;
+
+            _lastCursorLockState = Cursor.lockState;
+            Cursor.lockState = CursorLockMode.None;
             gameObject.SetActive(true);
         }
 
         public void Hide()
         {
+            if (IsVisible == false)
+                return;
+
+            Cursor.lockState = _lastCursorLockState;
             gameObject.SetActive(false);
         }
 
