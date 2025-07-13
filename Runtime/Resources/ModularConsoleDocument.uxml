@@ -1,5 +1,4 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/Packages/com.fixer33.modular-console/Runtime/Resources/ModularConsoleStyles.uss?fileID=7433441132597879392&amp;guid=1e09b107e4ae9074cb42a489d2a4060e&amp;type=3#ModularConsoleStyles" />
     <ui:TabView name="content-holder" />
     <ui:VisualElement name="close-region" style="flex-grow: 1;" />
 </ui:UXML>
