@@ -1,6 +1,6 @@
 {
   "name": "com.fixer33.modular-console",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "Modular console",
   "description": "Modular console that allows easy commands and custom modules integration",
   "unity": "6000.1",
@@ -8,5 +8,12 @@
     "name": "Fixer33",
     "email": "fsfixer33@gmail.com",
     "url": "https://github.com/Fixer33"
-  }
+  },
+  "sameples": [
+    {
+      "displayName": "ConsoleSequenceOpener",
+      "description": "A simple script to automatically spawn object that will open console on correct sequence of keys or clicks",
+      "path": "Samples~/ConsoleSequenceOpener"
+    }
+  ]
 }
