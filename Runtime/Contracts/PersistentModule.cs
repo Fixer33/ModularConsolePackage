@@ -7,7 +7,7 @@ namespace ModularConsole.Contracts
         public abstract string ModuleName { get; }
         public abstract void ConstructUI(VisualElement root);
 
-        internal PersistentModule()
+        public PersistentModule()
         {
         }
     }
