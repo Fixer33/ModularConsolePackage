@@ -4,6 +4,7 @@ namespace ModularConsole.Contracts
 {
     public interface IConsoleModule
     {
+        public int ConsoleTabOrder { get; }
         public string ModuleName { get; }
         public bool NeedsUpdate => false;
 

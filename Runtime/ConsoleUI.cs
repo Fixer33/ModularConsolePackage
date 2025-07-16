@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
@@ -97,7 +98,7 @@ namespace ModularConsole
 
             var tabView = _document.rootVisualElement.Q<TabView>("content-holder");
             
-            foreach (var consoleModule in ConsoleSystem.Modules)
+            foreach (var consoleModule in ConsoleSystem.Modules.OrderBy(i => i.ConsoleTabOrder))
             {
                 VisualElement moduleRoot = new VisualElement()
                 {

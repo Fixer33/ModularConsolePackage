@@ -13,6 +13,7 @@ namespace ModularConsole.Modules.Console
 
         internal static List<IConsoleCommand> Commands = new();
 
+        public override int ConsoleTabOrder => -1;
         public override string ModuleName => "Console";
         public bool NeedsUpdate { get; private set; }
 
