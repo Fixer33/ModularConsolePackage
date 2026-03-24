@@ -26,14 +26,13 @@
 }
 
 .logFilterToggle #unity-checkmark {
-    border-color: var(--transparent-color);
     background-color: var(--transparent-color);
     -unity-background-image-tint-color: var(--main-color);
+    border-color: var(--main-color);
+    border-radius: 3px;
 }
 
 .logFilterToggle:hover #unity-checkmark {
-    border-color: var(--main-color);
-    border-radius: 3px;
 }
 
 .logFilterToggle Label {
