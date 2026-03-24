@@ -89,14 +89,29 @@ namespace ModularConsole
             if (_initialized == false)
                 return;
 
-            _defaultRoot.CloneTree(_document.rootVisualElement);
-            _document.rootVisualElement.styleSheets.Add(_styles);
+            _document.rootVisualElement.Clear();
+            _document.rootVisualElement.styleSheets.Clear();
+            
+            if (_defaultRoot != null)
+                _defaultRoot.CloneTree(_document.rootVisualElement);
+            else
+                Debug.LogError($"[ModularConsole] {nameof(_defaultRoot)} is null! UI cannot be constructed.");
+
+            if (_styles != null)
+                _document.rootVisualElement.styleSheets.Add(_styles);
+            
             foreach (var additionalStyle in AdditionalStyles)
             {
-                _document.rootVisualElement.styleSheets.Add(additionalStyle);
+                if (additionalStyle != null)
+                    _document.rootVisualElement.styleSheets.Add(additionalStyle);
             }
 
             var tabView = _document.rootVisualElement.Q<TabView>("content-holder");
+            if (tabView == null)
+            {
+                Debug.LogError("[ModularConsole] Failed to find TabView with name 'content-holder' in the root element!");
+                return;
+            }
             
             foreach (var consoleModule in ConsoleSystem.Modules.OrderBy(i => i.ConsoleTabOrder))
             {
@@ -116,7 +131,8 @@ namespace ModularConsole
             }
 
             var closeRegion = _document.rootVisualElement.Q("close-region");
-            closeRegion.RegisterCallback<ClickEvent>(OnCloseRegionClick);
+            if (closeRegion != null)
+                closeRegion.RegisterCallback<ClickEvent>(OnCloseRegionClick);
         }
 
         private void OnCloseRegionClick(ClickEvent evt)

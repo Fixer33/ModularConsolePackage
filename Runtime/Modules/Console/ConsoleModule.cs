@@ -156,7 +156,10 @@ namespace ModularConsole.Modules.Console
             _root = root;
             
             _styleSheet ??= Resources.Load<StyleSheet>("ConsoleModule");
-            root.styleSheets.Add(_styleSheet);
+            if (_styleSheet != null)
+                root.styleSheets.Add(_styleSheet);
+            else
+                Debug.LogError("[ModularConsole] Failed to load ConsoleModule stylesheet from Resources!");
             
             root.Add(_controlPanel);
             root.Add(_logScrollView);

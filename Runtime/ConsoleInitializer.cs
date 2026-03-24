@@ -22,26 +22,32 @@ namespace ModularConsole
             InitializePersistentModules();
 
             var styleSheet = Resources.Load<StyleSheet>(ConsoleSystem.INTERNAL_STYLES_FILE_NAME);
+            if (styleSheet == null) Debug.LogError($"[ModularConsole] Failed to load internal styles from Resources: {ConsoleSystem.INTERNAL_STYLES_FILE_NAME}");
+            
             var themeStyleSheet = Resources.Load<ThemeStyleSheet>(ConsoleSystem.THEME_STYLESHEET_FILE_NAME);
+            if (themeStyleSheet == null) Debug.LogError($"[ModularConsole] Failed to load theme stylesheet from Resources: {ConsoleSystem.THEME_STYLESHEET_FILE_NAME}");
+            
             var defaultDocumentRoot = Resources.Load<VisualTreeAsset>(DEFAULT_DOCUMENT_ROOT_FILE_NAME);
+            if (defaultDocumentRoot == null) Debug.LogError($"[ModularConsole] Failed to load default document root from Resources: {DEFAULT_DOCUMENT_ROOT_FILE_NAME}");
             
             var consoleObj = new GameObject("ModularConsole - Don't destroy");
             Object.DontDestroyOnLoad(consoleObj);
             var consoleUI = consoleObj.AddComponent<ConsoleUI>();
-            consoleUI.Initialize(defaultDocumentRoot, styleSheet, themeStyleSheet, 
-                Resources.Load<PanelSettings>("ModularConsole/" + ConsoleSystem.CONSOLE_STYLE_PANEL_SETTINGS_OVERRIDE_NAME));
-
-            ConsoleSystem.UI = consoleUI;
             
             var styleOverride = Resources.Load<StyleSheet>("ModularConsole/" + ConsoleSystem.CONSOLE_STYLE_OVERRIDE_NAME);
             if (styleOverride)
                 consoleUI.AdditionalStyles.Add(styleOverride);
 
 #if UNITY_ANDROID || UNITY_IOS
-            styleOverride = Resources.Load<StyleSheet>("ModularConsole/" + ConsoleSystem.CONSOLE_STYLE_MOBILE_OVERRIDE_NAME);
-            if (styleOverride)
-                consoleUI.AdditionalStyles.Add(styleOverride);
+            var mobileStyleOverride = Resources.Load<StyleSheet>("ModularConsole/" + ConsoleSystem.CONSOLE_STYLE_MOBILE_OVERRIDE_NAME);
+            if (mobileStyleOverride)
+                consoleUI.AdditionalStyles.Add(mobileStyleOverride);
 #endif
+
+            consoleUI.Initialize(defaultDocumentRoot, styleSheet, themeStyleSheet, 
+                Resources.Load<PanelSettings>("ModularConsole/" + ConsoleSystem.CONSOLE_STYLE_PANEL_SETTINGS_OVERRIDE_NAME));
+
+            ConsoleSystem.UI = consoleUI;
         }
 
         private static void InitializePersistentModules()
