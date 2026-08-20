@@ -1,4 +1,4 @@
-## [1.2.0] - 2025-03-24
+## [1.2.0] - 2026-03-24
 
 ### Added
 - `ActionCommand` to register simple command delegates.

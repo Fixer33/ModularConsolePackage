@@ -27,7 +27,7 @@ namespace ModularConsole
 
         public static void RemoveModule(IConsoleModule runtimeModule)
         {
-            if (Modules.Contains(runtimeModule) == false)
+            if (Modules.Contains(runtimeModule))
                 Modules.Remove(runtimeModule);
         }
     }
