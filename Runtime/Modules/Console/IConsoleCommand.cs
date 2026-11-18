@@ -15,7 +15,7 @@ namespace ModularConsole.Modules.Console
         
         public static void UnRegister(this IConsoleCommand command)
         {
-            if (ConsoleModule.Commands.Contains(command) == false)
+            if (ConsoleModule.Commands.Contains(command))
                 ConsoleModule.Commands.Remove(command);
         }
     }
