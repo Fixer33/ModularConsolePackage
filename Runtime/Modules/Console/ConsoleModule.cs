@@ -7,8 +7,9 @@ namespace ModularConsole.Modules.Console
 {
     public class ConsoleModule : PersistentModule
     {
-        private const string LOG_TOGGLE_CLASS_NAME = "logFilterToggle";
-        
+        private const string COMMAND_INPUT_FOCUSED_CLASS_NAME = "command-input--focused";
+        private const string COMMAND_INPUT_PLACEHOLDER = "Enter command…  (Enter to run)";
+
         private static StyleSheet _styleSheet;
 
         internal static List<IConsoleCommand> Commands = new();
@@ -20,33 +21,41 @@ namespace ModularConsole.Modules.Console
         private readonly List<ConsoleLogMessage> _messageLogRecords = new();
         
         private readonly ScrollView _logScrollView = new() { name = "logs-container" };
+        private readonly VisualElement _commandInputContainer = new() { name = "command-input" };
         private readonly TextField _commandInput = new() { name = "command-input-field" };
 
         private readonly VisualElement _controlPanel = new() { name = "control-panel", };
-        private readonly Toggle _showLogsTgl = new() { name = "control__show-logs-tgl", text = "Show Logs", value = true };
-        private readonly Toggle _showWarningsTgl = new() { name = "control__show-warnings-tgl", text = "Show Warnings", value = true };
-        private readonly Toggle _showErrorsTgl = new() { name = "control__show-errors-tgl", text = "Show Errors", value = true };
-        private readonly Toggle _showAssertionsTgl = new() { name = "control__show-assertions-tgl", text = "Show Assertions", value = true };
-        
+        private readonly Toggle _showLogsTgl = new() { name = "control__show-logs-tgl", text = "Logs", value = true };
+        private readonly Toggle _showWarningsTgl = new() { name = "control__show-warnings-tgl", text = "Warnings", value = true };
+        private readonly Toggle _showErrorsTgl = new() { name = "control__show-errors-tgl", text = "Errors", value = true };
+        private readonly Toggle _showAssertionsTgl = new() { name = "control__show-assertions-tgl", text = "Assertions", value = true };
+        private readonly Button _clearBtn = new() { name = "control__clear-btn", text = "Clear" };
+
         private ConsoleLogMessage _lastLogMessage;
         private VisualElement _root;
         private int _updateCycles;
 
         public ConsoleModule()
         {
-            _controlPanel.Add(_showLogsTgl);
-            _showLogsTgl.RegisterValueChangedCallback(OnLogFiltersChanged);
-            _showLogsTgl.AddToClassList(LOG_TOGGLE_CLASS_NAME);
-            _controlPanel.Add(_showWarningsTgl);
-            _showWarningsTgl.RegisterValueChangedCallback(OnLogFiltersChanged);
-            _showWarningsTgl.AddToClassList(LOG_TOGGLE_CLASS_NAME);
-            _controlPanel.Add(_showErrorsTgl);
-            _showErrorsTgl.RegisterValueChangedCallback(OnLogFiltersChanged);
-            _showErrorsTgl.AddToClassList(LOG_TOGGLE_CLASS_NAME);
-            _controlPanel.Add(_showAssertionsTgl);
-            _showAssertionsTgl.RegisterValueChangedCallback(OnLogFiltersChanged);
-            _showAssertionsTgl.AddToClassList(LOG_TOGGLE_CLASS_NAME);
-            
+            foreach (var toggle in new[] { _showLogsTgl, _showWarningsTgl, _showErrorsTgl, _showAssertionsTgl })
+            {
+                _controlPanel.Add(toggle);
+                ConsoleToggleStyle.Apply(toggle);
+                toggle.RegisterValueChangedCallback(OnLogFiltersChanged);
+            }
+
+            _clearBtn.AddToClassList("console-button");
+            _clearBtn.clicked += ClearLogs;
+            _controlPanel.Add(_clearBtn);
+
+            var prompt = new Label("›") { name = "command-input__prompt", pickingMode = PickingMode.Ignore };
+            _commandInputContainer.Add(prompt);
+            _commandInputContainer.Add(_commandInput);
+            _commandInput.textEdition.placeholder = COMMAND_INPUT_PLACEHOLDER;
+            _commandInput.textEdition.hidePlaceholderOnFocus = true;
+            _commandInput.RegisterCallback<FocusInEvent>(_ => _commandInputContainer.AddToClassList(COMMAND_INPUT_FOCUSED_CLASS_NAME));
+            _commandInput.RegisterCallback<FocusOutEvent>(_ => _commandInputContainer.RemoveFromClassList(COMMAND_INPUT_FOCUSED_CLASS_NAME));
+
             _commandInput.Q<TextElement>().RegisterCallback<KeyDownEvent>(OnCommandSubmit);
             
             Application.logMessageReceived -= ApplicationOnLogMessageReceived;
@@ -65,6 +74,7 @@ namespace ModularConsole.Modules.Console
                 LogType.Error => new ErrorLog(condition, stacktrace),
                 LogType.Exception => new ErrorLog(condition, stacktrace),
                 LogType.Log => new SimpleLog(condition),
+                LogType.Assert => new AssertionLog(condition),
                 _ => new WarningLog(condition),
             };
 
@@ -72,7 +82,7 @@ namespace ModularConsole.Modules.Console
             {
                 _lastLogMessage = new ConsoleLogMessage(logRecord);
                 _messageLogRecords.Add(_lastLogMessage);
-                _lastLogMessage.AddToClassList("logRecord");
+                _lastLogMessage.SetEnabled(IsVisibleByFilters(_lastLogMessage));
                 _logScrollView.contentContainer.Add(_lastLogMessage);
                 NeedsUpdate = true;
                 _updateCycles = 0;
@@ -122,12 +132,26 @@ namespace ModularConsole.Modules.Console
         private void OnLogFiltersChanged(ChangeEvent<bool> _) // ignore the value, because different toggles invoke this callback
         {
             foreach (var consoleLogMessage in _messageLogRecords)
-            {
-                var isVisible = consoleLogMessage.IsLog && _showLogsTgl.value;
-                isVisible |= consoleLogMessage.IsWarning && _showWarningsTgl.value;
-                isVisible |= consoleLogMessage.IsError && _showErrorsTgl.value;
-                consoleLogMessage.SetEnabled(isVisible);
-            }
+                consoleLogMessage.SetEnabled(IsVisibleByFilters(consoleLogMessage));
+        }
+
+        private bool IsVisibleByFilters(ConsoleLogMessage message)
+        {
+            var isVisible = message.IsLog && _showLogsTgl.value;
+            isVisible |= message.IsWarning && _showWarningsTgl.value;
+            isVisible |= message.IsError && _showErrorsTgl.value;
+            isVisible |= message.IsAssertion && _showAssertionsTgl.value;
+            return isVisible;
+        }
+
+        /// <summary>
+        /// Removes all log records (and with them their repeat counters) from this console. Unity's own console is not affected
+        /// </summary>
+        private void ClearLogs()
+        {
+            _messageLogRecords.Clear();
+            _logScrollView.contentContainer.Clear();
+            _lastLogMessage = null;
         }
 
         public void Update()
@@ -149,6 +173,8 @@ namespace ModularConsole.Modules.Console
             _root.Add(_controlPanel);
             _root.Remove(_logScrollView);
             _root.Add(_logScrollView);
+            _root.Remove(_commandInputContainer);
+            _root.Add(_commandInputContainer);
         }
         
         public override void ConstructUI(VisualElement root)
@@ -163,7 +189,7 @@ namespace ModularConsole.Modules.Console
             
             root.Add(_controlPanel);
             root.Add(_logScrollView);
-            root.Add(_commandInput);
+            root.Add(_commandInputContainer);
         }
     }
 }

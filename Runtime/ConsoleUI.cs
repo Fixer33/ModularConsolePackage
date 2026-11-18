@@ -9,6 +9,7 @@ namespace ModularConsole
     public class ConsoleUI : MonoBehaviour
     {
         private const float CONSOLE_HEIGHT_PERCENTAGE_OF_SCREEN = 0.5f;
+        private const string CLOSE_HINT_TEXT = "Tap outside to close";
 
         public bool IsVisible => gameObject.activeSelf;
 
@@ -128,6 +129,17 @@ namespace ModularConsole
                 };
                 tab.contentContainer.Add(moduleRoot);
                 tabView.contentContainer.Add(tab);
+            }
+
+            var headerContainer = tabView.Q(className: "unity-tab-view__header-container");
+            if (headerContainer != null)
+            {
+                headerContainer.Add(new Label(CLOSE_HINT_TEXT)
+                {
+                    name = "close-hint",
+                    pickingMode = PickingMode.Ignore
+                });
+                headerContainer.Q("close-hint").AddToClassList("console-close-hint");
             }
 
             var closeRegion = _document.rootVisualElement.Q("close-region");

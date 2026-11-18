@@ -14,39 +14,20 @@ namespace ModularConsole.Modules
 
         public SceneHierarchyModule()
         {
+            _treeView.fixedItemHeight = 34; // 30px row + 4px gap, see #tree-item-container in ConsoleModule.uss
             _treeView.makeItem = () =>
             {
                 var container = new VisualElement();
                 container.name = "tree-item-container";
-                container.style.flexDirection = FlexDirection.Row;
-                container.style.alignItems = Align.Center;
-                container.style.height = 30; // Consistent height
-                container.style.paddingLeft = 5;
+                // Layout, hover and selected states live in ConsoleModule.uss (#tree-item-container)
 
                 var toggle = new Toggle { name = "active-toggle" };
-                toggle.AddToClassList("logFilterToggle");
-                toggle.style.marginRight = 5;
-                toggle.style.marginLeft = 0;
-                toggle.style.marginTop = 0;
-                toggle.style.marginBottom = 0;
+                ConsoleToggleStyle.Apply(toggle, small: true);
 
                 var label = new Label { name = "name-label" };
-                label.style.unityTextAlign = TextAnchor.MiddleLeft;
-                label.style.flexGrow = 1;
-                label.style.height = Length.Percent(100);
-                label.style.unityTextAlign = TextAnchor.MiddleLeft;
 
                 container.Add(toggle);
                 container.Add(label);
-
-                container.RegisterCallback<MouseEnterEvent>(evt =>
-                {
-                    container.style.backgroundColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
-                });
-                container.RegisterCallback<MouseLeaveEvent>(evt =>
-                {
-                    container.style.backgroundColor = new Color(0, 0, 0, 0);
-                });
 
                 return container;
             };
@@ -64,6 +45,7 @@ namespace ModularConsole.Modules
                     toggle.style.display = DisplayStyle.Flex;
                     toggle.UnregisterCallback<ChangeEvent<bool>>(OnToggleChanged);
                     toggle.value = item.GameObject.activeSelf;
+                    ConsoleToggleStyle.Refresh(toggle, toggle.value);
                     toggle.RegisterCallback<ChangeEvent<bool>>(OnToggleChanged);
                     toggle.userData = item.GameObject;
                 }

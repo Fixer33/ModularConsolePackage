@@ -1,110 +1,226 @@
-:root {
-    --control-panel-height: 60px;
-    --command-input-height: 40px;
-    --log-record__count-text-size: 40px;
-    
-    --main-color: rgba(204, 195, 40, 0.5);
-    --secondary-color: rgba(60, 70, 78, 0.67);
-    
-    --transparent-color: rgba(0,0,0,0);
-}
+/* Tokens (--bg-*, --accent, ...) come from ModularConsoleStyles.uss :root */
+
+/* ---------- Control panel ---------- */
 
 #control-panel {
-    height: var(--control-panel-height);
-    flex-shrink: 0;
-    background-color: var(--secondary-color);
-    border-top-color: var(--main-color);
-    border-top-width: 1px;
-    border-bottom-color: var(--main-color);
-    border-bottom-width: 1px;
-    
     flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+    margin-bottom: 10px;
 }
 
-.logFilterToggle {
-    margin-left: 15px;
+#control__clear-btn {
+    margin-left: auto;
 }
 
-.logFilterToggle #unity-checkmark {
-    background-color: var(--transparent-color);
-    -unity-background-image-tint-color: var(--main-color);
-    border-color: var(--main-color);
-    border-radius: 3px;
-}
-
-.logFilterToggle:hover #unity-checkmark {
-}
-
-.logFilterToggle Label {
-    font-size: 18px;
-}
+/* ---------- Log list ---------- */
 
 #logs-container {
     flex-grow: 1;
 }
 
-#command-input-field {
-    margin-top: 5px;
-    height: var(--command-input-height);
-}
-
-#command-input-field #unity-text-input {
-    padding: 0;
-    background-color: var(--secondary-color);
-    border-color: var(--main-color);
-    border-width: 3px;
-    padding-left: 9px;
-}
-
-#command-input-field .unity-text-element {
-    font-size: 24px;
-    padding: 0;
-}
-
 .logRecord {
     flex-direction: column;
-    font-size: 24px;
-    
+    flex-shrink: 0;
+    margin: 0 0 6px 0;
+    padding: 10px 14px;
     border-width: 1px;
-    border-color: rgb(204, 195, 40);
-    border-radius: 1px;
-    margin: 2px 3px;
-    padding-left: 5px;
-    padding-right: 5px;
+    border-color: var(--border-subtle);
+    border-radius: 10px;
+    background-color: var(--bg-surface);
 }
 
 .logRecord:disabled {
     display: none;
 }
 
+.logRecord--warning {
+    background-color: var(--warning-subtle);
+    border-color: var(--warning);
+}
+
+.logRecord--error {
+    background-color: var(--danger-subtle);
+    border-color: var(--danger);
+}
+
+.logRecord--assertion {
+    background-color: var(--info-subtle);
+    border-color: var(--info);
+}
+
 .logRecordExpanded {
 }
 
+#log-record__row {
+    flex-direction: row;
+    align-items: center;
+}
+
+#log-record__dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background-color: var(--text-secondary);
+}
+
+.logRecord--warning #log-record__dot {
+    background-color: var(--warning);
+}
+
+.logRecord--error #log-record__dot {
+    background-color: var(--danger);
+}
+
+.logRecord--assertion #log-record__dot {
+    background-color: var(--info);
+}
+
 #log-record__main-text {
-    width: 95%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    color: var(--text-primary);
     white-space: normal;
+    -unity-text-align: middle-left;
+}
+
+#log-record__time {
+    flex-shrink: 0;
+    margin: 0 0 0 10px;
+    padding: 0;
+    font-size: 12px;
+    color: var(--text-muted);
 }
 
 #log-record__same-count-text {
-    width: var(--log-record__count-text-size);
-    height: var(--log-record__count-text-size);
-    align-self: center;
-    font-size: 22px;
-    border-width: 3px;
-    border-radius: 60px;
-    border-color: rgb(204, 195, 40);
-    
-    position: absolute;
-    right: 0;
-    
+    flex-shrink: 0;
+    margin: 0 0 0 10px;
+    padding: 2px 8px;
+    font-size: 12px;
+    border-width: 0;
+    border-radius: 10px;
+    color: var(--accent-hover);
+    background-color: var(--accent-subtle);
     -unity-text-align: middle-center;
 }
 
 #log-record__stacktrace {
     display: none;
-    color: rgb(255, 195, 40);
+    margin: 6px 0 0 0;
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+    color: var(--text-muted);
+    background-color: var(--bg-base);
+    white-space: normal;
 }
 
 .logRecordExpanded #log-record__stacktrace {
     display: flex;
+}
+
+/* ---------- Command input ---------- */
+
+#command-input {
+    flex-direction: row;
+    flex-shrink: 0;
+    align-items: center;
+    margin-top: 10px;
+    padding: 0 12px;
+    border-width: 1px;
+    border-color: var(--border-default);
+    border-radius: 10px;
+    background-color: var(--bg-base);
+}
+
+#command-input.command-input--focused {
+    border-color: var(--accent);
+}
+
+#command-input__prompt {
+    margin: 0 8px 0 0;
+    padding: 0;
+    font-size: 14px;
+    color: var(--accent);
+}
+
+#command-input-field {
+    flex-grow: 1;
+    margin: 0;
+    height: auto;
+}
+
+#command-input-field #unity-text-input {
+    padding: 10px 0;
+    margin: 0;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--text-primary);
+}
+
+#command-input-field .unity-text-element {
+    padding: 0;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+#command-input-field .unity-base-text-field__placeholder,
+#command-input-field .unity-base-text-field__placeholder > .unity-text-element {
+    color: var(--text-muted);
+}
+
+/* ---------- Scenes hierarchy ---------- */
+
+#container {
+    flex-grow: 1;
+}
+
+#container .unity-collection-view__item,
+#container .unity-collection-view__item:hover,
+#container .unity-collection-view__item--selected,
+#container .unity-collection-view__item--selected:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+}
+
+#container .unity-tree-view__item-indent {
+    width: 20px;
+}
+
+#container .unity-tree-view__item-toggle .unity-toggle__checkmark {
+    -unity-background-image-tint-color: var(--text-secondary);
+}
+
+#tree-item-container {
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+    height: 30px;
+    margin-bottom: 4px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 8px;
+}
+
+#tree-item-container:hover {
+    background-color: var(--bg-hover);
+}
+
+#name-label {
+    flex-grow: 1;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: var(--text-primary);
+    -unity-text-align: middle-left;
+}
+
+#container .unity-collection-view__item--selected #tree-item-container {
+    background-color: var(--accent-subtle);
 }

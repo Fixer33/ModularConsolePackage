@@ -1,51 +1,105 @@
+:root {
+    --bg-base: #0F1115; --bg-surface: #171A21; --bg-raised: #1E222B; --bg-overlay: #272C37; --bg-hover: #2E3441;
+    --border-subtle: #262B35; --border-default: #343B49; --border-strong: #475066;
+    --text-primary: #E8ECF3; --text-secondary: #A3ACBD; --text-muted: #6F7889; --text-on-accent: #FFFFFF;
+    --accent: #3B82F6; --accent-hover: #5B9BFF; --accent-pressed: #2B6AD8; --accent-subtle: #1B2A47; --accent-border: #2F5FB3;
+    --success: #34D399; --success-subtle: #10281F;
+    --warning: #FBBF24; --warning-subtle: #2E2410;
+    --danger: #F87171; --danger-subtle: #2E1517;
+    --info: #60A5FA; --info-subtle: #13243B;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px;
+    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px;
+}
+
+/* ---------- Shell ---------- */
+
 #content-holder {
     height: 50%;
-    background-color: rgba(68, 70, 70, 0.67);
+    color: var(--text-primary);
+    font-size: 14px;
+    background-color: var(--bg-surface);
+    border-width: 0 1px 1px 1px;
+    border-color: var(--border-default);
 }
 
 #close-region {
-    background-color: rgba(163, 210, 136, 0.14);
-}
-
-#content-holder #unity-tab__header {
     background-color: rgba(0, 0, 0, 0);
-    width: 145px;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-left-color: rgb(76, 84, 91);
-    border-right-color: rgb(76, 84, 91);
-    border-top-color: rgb(76, 84, 91);
-    border-bottom-color: rgb(76, 84, 91);
-    border-radius: 4px;
-    align-self: center;
-    height: 70%;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 1px;
-    margin: 0 5px;
 }
 
+/* ---------- Tab header ---------- */
+
+/* NOTE: despite its name, .unity-tab-view__content-viewport is the scrolling viewport of the tab HEADERS */
 #content-holder > .unity-tab-view__content-viewport {
-    background-color: rgba(60, 70, 78, 0.67);
-    height: 60px;
-    align-self: center;
-    width: 100%;
-    align-items: center;
+    flex-grow: 0;
     flex-shrink: 0;
-}
-
-#content-holder VisualElement {
-    color: rgb(204, 195, 40);
+    flex-direction: row;
+    align-self: stretch;
+    align-items: stretch;
+    width: auto;
+    height: 56px;
+    background-color: var(--bg-base);
 }
 
 #content-holder .unity-tab-view__header-container {
-    height: 60px;
-    justify-content: center;
+    height: 56px;
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-direction: row;
     align-items: center;
+    padding: 10px 16px;
+    background-color: var(--bg-base);
+    border-bottom-width: 1px;
+    border-bottom-color: var(--border-subtle);
 }
+
+#content-holder .unity-tab__header {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-self: auto;
+    width: auto;
+    height: auto;
+    margin: 0 4px 0 0;
+    padding: 8px 16px;
+    border-width: 0;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#content-holder .unity-tab__header:hover {
+    background-color: var(--bg-hover);
+}
+
+#content-holder .unity-tab__header:checked {
+    background-color: var(--accent-subtle);
+}
+
+#content-holder .unity-tab__header > .unity-tab__header-label {
+    position: relative;
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+#content-holder .unity-tab__header:checked > .unity-tab__header-label {
+    color: var(--accent-hover);
+}
+
+#content-holder .unity-tab__header > .unity-tab__header-underline {
+    display: none;
+}
+
+.console-close-hint {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    -unity-text-align: middle-right;
+}
+
+/* ---------- Tab content ---------- */
 
 #unity-tab-view__content-container {
     flex-grow: 1;
@@ -59,25 +113,118 @@
     flex-grow: 1;
 }
 
-.unity-tab__header > .unity-tab__header-label {
-    font-size: 18px;
-    position: relative;
-}
-
-.unity-tab__header > .unity-tab__header-underline {
-    background-color: rgba(204, 195, 40, 0.25);
-    position: relative;
-    width: 15%;
-    border-radius: 1px;
-    transition-property: width;
-    transition-duration: 0.1s;
-}
-
-.unity-tab__header:checked > .unity-tab__header-underline {
-    background-color: rgb(204, 195, 40);
-    width: 95%;
-}
-
 .module-ui-container {
     flex-grow: 1;
+    padding: 12px 16px;
+}
+
+/* ---------- Shared controls (used by every module) ---------- */
+
+.logFilterToggle {
+    flex-direction: row;
+    align-items: center;
+    margin: 0 16px 0 0;
+    padding: 0;
+}
+
+.logFilterToggle > .unity-toggle__input {
+    flex-direction: row;
+    align-items: center;
+}
+
+.logFilterToggle #unity-checkmark {
+    flex-shrink: 0;
+    width: 40px;
+    height: 22px;
+    margin: 0 8px 0 0;
+    border-width: 0;
+    border-radius: 11px;
+    background-image: none;
+    background-color: var(--bg-overlay);
+    transition-property: background-color;
+    transition-duration: 0.12s;
+}
+
+.logFilterToggle:hover #unity-checkmark {
+    background-color: var(--bg-hover);
+}
+
+.logFilterToggle.toggle--on #unity-checkmark,
+.logFilterToggle.toggle--on:hover #unity-checkmark {
+    background-color: var(--accent);
+}
+
+.logFilterToggle.toggle--on:hover #unity-checkmark {
+    background-color: var(--accent-hover);
+}
+
+.logFilterToggle .toggle__knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background-color: var(--text-secondary);
+    transition-property: left, background-color;
+    transition-duration: 0.12s;
+}
+
+.logFilterToggle.toggle--on .toggle__knob {
+    left: 21px;
+    background-color: var(--text-on-accent);
+}
+
+.logFilterToggle Label {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.logFilterToggle.toggle--on Label {
+    color: var(--text-primary);
+}
+
+/* Compact variant for tree rows (32x18) */
+.logFilterToggle.toggle--small {
+    margin: 0 10px 0 0;
+}
+
+.logFilterToggle.toggle--small #unity-checkmark {
+    width: 32px;
+    height: 18px;
+    margin: 0;
+    border-radius: 9px;
+}
+
+.logFilterToggle.toggle--small .toggle__knob {
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+}
+
+.logFilterToggle.toggle--small.toggle--on .toggle__knob {
+    left: 16px;
+}
+
+.console-button {
+    margin: 0;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: var(--text-primary);
+    background-color: var(--bg-raised);
+    border-width: 1px;
+    border-color: var(--border-default);
+    border-radius: 10px;
+}
+
+.console-button:hover {
+    background-color: var(--bg-hover);
+}
+
+.console-button:active {
+    background-color: var(--bg-overlay);
 }
