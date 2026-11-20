@@ -1,6 +1,6 @@
 {
   "name": "com.fixer33.modular-console",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "displayName": "Modular console",
   "description": "Modular console that allows easy commands and custom modules integration",
   "unity": "6000.1",
